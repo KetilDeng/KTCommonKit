@@ -12,13 +12,13 @@ typedef void(^voidBlock)();
 
 @interface UIViewController (NavItem)
 
-- (void)configNavLeftItemWith:(voidBlock)action;
+- (void)configNavLeftItem:(voidBlock)action;
 
-- (void)configNavLeftItemWith:(id)object andAction:(voidBlock)action;
+- (void)configNavLeftItem:(id)object andAction:(voidBlock)action;
 
-- (void)configNavRightItemWith:(id)object andAction:(voidBlock)action;
+- (void)configNavRightItem:(id)object andAction:(voidBlock)action;
 
-- (void)configNavItemWith:(id)object leftOrRight:(BOOL)left withFont:(UIFont *)font withItemColor:(UIColor *)color andAction:(voidBlock)action;
+- (void)configNavItem:(id)object leftOrRight:(BOOL)left withFont:(UIFont *)font withItemColor:(UIColor *)color andAction:(voidBlock)action;
 
 - (void)configNavigationItemString:(NSString*)text withFont:(UIFont*)font withItemColor:(UIColor *)color leftOrRight:(BOOL)left andAction:(voidBlock)action;
 

@@ -10,32 +10,24 @@
 
 #import <objc/runtime.h>
 
-#define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0                                                                                                         alpha:a]
-#define LeftItemImageOrTitle [UIImage imageNamed:@"common_back_icon"]?[UIImage imageNamed:@"common_back_icon"]:@""
-#define DefaultBarTintColor RGBA(255.0, 85.0, 20, 1.0)
-#define DefaultTitleFont [UIFont systemFontOfSize:19.0]
-#define DefaultTitleColor [UIColor whiteColor]
-#define DefaultItemTitleFont [UIFont systemFontOfSize:16.0]
-#define DefaultItemTintColor [UIColor whiteColor]
-
 static const void *leftBlockKey  = &leftBlockKey;
 static const void *rightBlockKey = &rightBlockKey;
 
 @implementation UIViewController (NavItem)
 
-- (void)configNavLeftItemWith:(voidBlock)action{
-	[self configNavLeftItemWith:LeftItemImageOrTitle andAction:action];
+- (void)configNavLeftItem:(voidBlock)action{
+	[self configNavLeftItem:[UIImage imageNamed:@"common_back_icon"]?:@"返回" andAction:action];
 }
 
-- (void)configNavLeftItemWith:(id)object andAction:(voidBlock)action{
-	[self configNavItemWith:object leftOrRight:YES withFont:nil withItemColor:nil andAction:action];
+- (void)configNavLeftItem:(id)object andAction:(voidBlock)action{
+	[self configNavItem:object leftOrRight:YES withFont:nil withItemColor:nil andAction:action];
 }
 
-- (void)configNavRightItemWith:(id)object andAction:(voidBlock)action{
+- (void)configNavRightItem:(id)object andAction:(voidBlock)action{
 	[self configNavItemWith:object leftOrRight:NO withFont:nil withItemColor:nil andAction:action];
 }
 
-- (void)configNavItemWith:(id)object leftOrRight:(BOOL)left withFont:(UIFont *)font withItemColor:(UIColor *)color andAction:(voidBlock)action{
+- (void)configNavItem:(id)object leftOrRight:(BOOL)left withFont:(UIFont *)font withItemColor:(UIColor *)color andAction:(voidBlock)action{
 	
 	NSCAssert([object isKindOfClass:[NSString class]] || [object isKindOfClass:[UIImage class]], @"the object must be class of NSString or UIImage");
 	
@@ -53,11 +45,11 @@ static const void *rightBlockKey = &rightBlockKey;
 		if (color && font) {
 			[self configNavigationItemString:object withFont:font withItemColor:color leftOrRight:left andAction:action];
 		}else if(color){
-			[self configNavigationItemString:object withFont:DefaultItemTitleFont withItemColor:color leftOrRight:left andAction:action];
+			[self configNavigationItemString:object withFont:[UIFont systemFontOfSize:16.0] withItemColor:color leftOrRight:left andAction:action];
 		}else if (font){
 			[self configNavigationItemString:object withFont:font withItemColor:nil leftOrRight:left andAction:action];
 		}else{
-			[self configNavigationItemString:object withFont:DefaultItemTitleFont withItemColor:nil leftOrRight:left andAction:action];
+			[self configNavigationItemString:object withFont:[UIFont systemFontOfSize:16.0] withItemColor:nil leftOrRight:left andAction:action];
 		}
 	}
 }
@@ -77,7 +69,7 @@ static const void *rightBlockKey = &rightBlockKey;
 	if (color) {
 		[barButtonItem setTintColor:color];
 	}else{
-		[barButtonItem setTintColor:DefaultItemTintColor];
+		[barButtonItem setTintColor:[UIColor whiteColor]];
 	}
 	if (left) {
 		self.navigationItem.leftBarButtonItem = barButtonItem;
@@ -86,8 +78,7 @@ static const void *rightBlockKey = &rightBlockKey;
 	}
 }
 
-#pragma mark -
-#pragma mark -------------------- User Action ---------------------
+#pragma mark - User Action
 - (void)pressLeft:(id)sender{
 	voidBlock action = objc_getAssociatedObject(self, leftBlockKey);
 	if (action) {
